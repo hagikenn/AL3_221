@@ -7,6 +7,10 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include"Player.h"
+#include<vector>
+#include"DebugCamera.h"
+#include "GameScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -14,6 +18,11 @@
 class GameScene {
 
 public: // メンバ関数
+	Sprite* sprite_ = nullptr;
+	bool isDebugCameraActive_ = false;
+
+	
+
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -43,8 +52,24 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	uint32_t textureHandle_ = 0;
 
+	Player* player_ = nullptr;
+
+	Model* modelBlock_ = nullptr;
+
+	std::vector<std::vector < WorldTransform* >> worldTransformBlocks_;
+
+	Model* model_ = nullptr;
+
+	ViewProjection viewProjection_;
+
+	DebugCamera* debugCamera_ = nullptr;
+
+	
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	
+	
 };
