@@ -14,6 +14,7 @@ GameScene::~GameScene() {
 	delete model_;
 	delete modelBlock_;
 	delete debugCamera_;
+	delete modelSkydome_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlocksLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlocksLine) {
@@ -30,18 +31,19 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+
 	textureHandle_ = TextureManager::Load("playar.png");
 	sprite_ = Sprite::Create(textureHandle_, {100, 50});
 
 	player_ = new Player();
 
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("player",true);
 	
 	viewProjection_.Initialize();
 
-	player_->Initialize(model_, textureHandle_,&viewProjection_);
+	player_->Initialize(model_, /*textureHandle_,*/&viewProjection_);
 
-	modelBlock_ = Model::CreateFromOBJ("cube");
+	modelBlock_ = Model::CreateFromOBJ("block");
 
 	const uint32_t kNumBlockVirtical = 10; 
 	const uint32_t kNumBlockHorizontal = 20;
@@ -71,6 +73,12 @@ void GameScene::Initialize() {
 	
 	debugCamera_ = new DebugCamera(kNumBlockHorizontal, kNumBlockVirtical);
 
+
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_, &viewProjection_);
+
 }
 
 void GameScene::Update() {
@@ -80,6 +88,8 @@ void GameScene::Update() {
 	sprite_->SetPosition(position);
 
 	player_->Update();
+	skydome_->Update();
+
 	debugCamera_->Update();
 
 	for (std::vector<WorldTransform*>& worldTransformBlocksLine : worldTransformBlocks_) {
@@ -138,6 +148,7 @@ void GameScene::Draw() {
 
 	// sprite_->Draw();
 	player_->Draw();
+	skydome_->Draw();
 
 	for (std::vector<WorldTransform*>& worldTransformBlocksLine : worldTransformBlocks_) {
 	for (WorldTransform* worldTransformBlock : worldTransformBlocksLine) {
