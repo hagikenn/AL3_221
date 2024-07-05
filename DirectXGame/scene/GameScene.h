@@ -1,18 +1,18 @@
 #pragma once
 
 #include "Audio.h"
+#include "DebugCamera.h"
 #include "DirectXCommon.h"
+#include "GameScene.h"
 #include "Input.h"
+#include "MapChipField.h"
 #include "Model.h"
+#include "Player.h"
+#include "Skydome.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include"Player.h"
-#include "Skydome.h"
-#include<vector>
-#include"DebugCamera.h"
-#include "GameScene.h"
-#include"MapChipField.h"
+#include <vector>
 
 /// <summary>
 /// ゲームシーン
@@ -22,8 +22,6 @@ class GameScene {
 public: // メンバ関数
 	Sprite* sprite_ = nullptr;
 	bool isDebugCameraActive_ = false;
-
-	
 
 	/// <summary>
 	/// コンストクラタ
@@ -50,7 +48,6 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-
 	void GenerateBlocks();
 
 private: // メンバ変数
@@ -58,12 +55,14 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	uint32_t textureHandle_ = 0;
-
+	// 自キャラ
 	Player* player_ = nullptr;
+	// スカイドームキャラ
+	Skydome* skydome_ = nullptr;
 
 	Model* modelBlock_ = nullptr;
 
-	std::vector<std::vector < WorldTransform* >> worldTransformBlocks_;
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
 	Model* model_ = nullptr;
 
@@ -71,14 +70,13 @@ private: // メンバ変数
 
 	DebugCamera* debugCamera_ = nullptr;
 
-	Skydome* skydome_ = nullptr;
+	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
 
+	// マップチップフィールド
 	MapChipField* mapChipField_;
-	
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
-	
 };
