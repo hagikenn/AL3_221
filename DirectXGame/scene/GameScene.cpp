@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include "WorldTransform.h"
 #include <cassert>
+#include"CameraController.h"
 
 GameScene::GameScene() {}
 
@@ -82,6 +83,16 @@ void GameScene::Initialize() {
 	}
 
 	debugCamera_ = new DebugCamera(kNumBlockHorizontal, kNumBlockVirtical);
+
+	//カメラコントローラの初期化
+	cameraController_ = new CameraController();
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->Reset();
+
+	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(cameraArea);
+
 }
 
 void GameScene::Update() {
@@ -93,6 +104,7 @@ void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
 	skydome_->Update();
+	cameraController_->Update();
 
 	debugCamera_->Update();
 
@@ -121,12 +133,18 @@ void GameScene::Update() {
 
 	if (isDebugCameraActive_) {
 		debugCamera_->Update();
+		cameraController_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
-		viewProjection_.UpdateMatrix();
+		viewProjection_.matView = cameraController_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
 	}
+
+
 }
 
 void GameScene::Draw() {

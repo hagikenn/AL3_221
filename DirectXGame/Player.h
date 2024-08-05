@@ -19,6 +19,10 @@ public:
 	// 接地状態フラグ
 	bool onGround_ = true;
 
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
+
+	const Vector3& GetVelocity() const { return velocity_; }
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -44,4 +48,7 @@ private:
 	float turnFirstRotationY_ = 0.0f;
 	// 旋回タイマー
 	float turnTimer_ = 0.0f;
+
+
+
 };

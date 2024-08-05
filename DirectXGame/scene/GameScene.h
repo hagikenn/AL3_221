@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Skydome.h"
 #include "Sprite.h"
+#include"CameraController.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <vector>
@@ -75,6 +76,8 @@ private: // メンバ変数
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;
+
+	CameraController* cameraController_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
